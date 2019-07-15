@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <servlet>
+        <servlet-name>TestServlet1</servlet-name>
+        <servlet-class>cn.hengyumo.learn.TestServlet1</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TestServlet1</servlet-name>
+        <url-pattern>/test1</url-pattern>
+    </servlet-mapping>
+
+    <!--过滤器通过 Web 部署描述符（web.xml）中的 XML 标签来声明，然后映射到您的应用程序的部署描述符中的 Servlet 名称或 URL 模式。-->
+
+    <!--当 Web 容器启动 Web 应用程序时，它会为您在部署描述符中声明的每一个过滤器创建一个实例。-->
+
+    <!--Filter的执行顺序与在web.xml配置文件中的配置顺序一致，一般把Filter配置在所有的Servlet之前。-->
+
+    <filter>
+        <filter-name>RequestLogFilter</filter-name>
+        <filter-class>cn.hengyumo.learn.RequestLogFilter</filter-class>
+        <init-param>
+            <param-name>name</param-name>
+            <param-value>init-参数</param-value>
+        </init-param>
+    </filter>
+    <!-- 过滤器路由映射 -->
+    <filter-mapping>
+        <filter-name>RequestLogFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--注解WebServlet和web.xml的servlet不能相互作用，用其中的一个-->
+    <servlet>
+        <servlet-name>ErrorHandlerServlet</servlet-name>
+        <servlet-class>cn.hengyumo.learn.ErrorHandlerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorHandlerServlet</servlet-name>
+        <url-pattern>/ErrorHandler</url-pattern>
+    </servlet-mapping>
+
+    <!-- error-code 相关的错误页面 -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/ErrorHandler</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/ErrorHandler</location>
+    </error-page>
+
+    <!-- exception-type 相关的错误页面 -->
+    <!--<error-page>-->
+        <!--&lt;!&ndash;java.lang.Throwable 拦截所有的错误&ndash;&gt;-->
+        <!--<exception-type>-->
+            <!--java.lang.Throwable-->
+        <!--</exception-type >-->
+        <!--<location>/ErrorHandler</location>-->
+    <!--</error-page>-->
+
+</web-app>
